@@ -1,0 +1,43 @@
+import 'package:shop_app/models/favourite_model/change_favourite_model.dart';
+
+abstract class BazzStates{}
+class InitialState extends BazzStates{}
+class ChangeBottomIndexState extends BazzStates{}
+
+class BazzHomeLoadingState extends BazzStates{}
+class BazzHomeSuccessState extends BazzStates{}
+class BazzHomeFilledState extends BazzStates
+{
+  final String error;
+  BazzHomeFilledState(this.error);
+}
+class BazzCategoriesModelSuccessState extends BazzStates{}
+class BazzCategoriesModelFilledState extends BazzStates
+{
+  final String error;
+  BazzCategoriesModelFilledState(this.error);
+}
+
+class ChangeFavoriteState extends BazzStates{}
+class ChangeFavoriteStateSuccess extends BazzStates
+{
+  final ChangeFavoriteModel model;
+  ChangeFavoriteStateSuccess(this.model);
+}
+class ChangeFavoriteStateError extends BazzStates
+{
+  final String error;
+  ChangeFavoriteStateError(this.error);
+}
+class GetFavoriteStateLoading extends BazzStates
+{
+}
+class GetFavoriteStateSuccess extends BazzStates
+{
+}
+class GetFavoriteStateError extends BazzStates
+{
+  final String error;
+  GetFavoriteStateError(this.error);
+}
+
