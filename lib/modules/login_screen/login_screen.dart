@@ -8,6 +8,7 @@ import 'package:shop_app/modules/login_screen/cubit/login_cubit.dart';
 import 'package:shop_app/modules/login_screen/cubit/login_states.dart';
 import 'package:shop_app/modules/register_screen/register_screen.dart';
 import 'package:shop_app/shared/components/components.dart';
+import 'package:shop_app/shared/components/constants.dart';
 import 'package:shop_app/shared/network/local/cache_helper.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -26,6 +27,7 @@ class LoginScreen extends StatelessWidget {
             if (state.loginmodel.status!)
             {
               CacheHelper.saveData(key: 'token', value: state.loginmodel.data!.token);
+              token=state.loginmodel.data!.token;
               Fluttertoast.showToast(
                   msg: state.loginmodel.message!,
                   toastLength: Toast.LENGTH_LONG,

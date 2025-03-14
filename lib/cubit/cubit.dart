@@ -7,6 +7,7 @@ import 'package:shop_app/shared/network/remote/dio_helper.dart';
 
 import '../models/categories_model/categories_model.dart';
 import '../models/favourite_model/get_favorites_models.dart';
+import '../models/login_model/login_model.dart';
 import '../modules/categories_screen/cateogries_screen.dart';
 import '../modules/favourite_screen/favourite_screen.dart';
 import '../modules/home_screen/home_screen.dart';
@@ -72,20 +73,16 @@ class BazzCubit extends Cubit<BazzStates> {
     DioHelper.postData(
         url: FAVORITES,
         token: token,
-        data: {'product_id': productId}).then((value)
-    {
+        data: {'product_id': productId}).then((value) {
       changeFavouriteModel = ChangeFavoriteModel.fromJson(value!.data);
       // print(favourite[productId]);
       if (!changeFavouriteModel!.status!) {
         favourite[productId] = !favourite[productId]!;
-      }
-      else
-      {
+      } else {
         getFavoritesData();
       }
       emit(ChangeFavoriteStateSuccess(changeFavouriteModel!));
-    }).catchError((error)
-    {
+    }).catchError((error) {
       favourite[productId] = !favourite[productId]!;
       emit(ChangeFavoriteStateError(error.toString()));
     });
@@ -100,11 +97,56 @@ class BazzCubit extends Cubit<BazzStates> {
       token: token,
     ).then((value) {
       getFavorites = GetFavorites.fromJson(value!.data);
-      print(getFavorites);
+   //   print(getFavorites);
       emit(GetFavoriteStateSuccess());
     }).catchError((error) {
-      print(error);
+     // print(error);
       emit(GetFavoriteStateError(error));
+    });
+  }
+
+  LoginModel? userModel;
+
+  void getUserData() {
+    emit(GetUserDataStateLoading());
+    DioHelper.getData(
+      url: PROFILE,
+      token: token,
+    ).then((value)
+    {
+      userModel=LoginModel.fromJson(value!.data);
+      print(userModel!.data!.name);
+      emit(GetUserDataStateSuccess());
+    }).catchError((error)
+    {
+      print(error);
+      emit(GetUserDataStateError(error));
+    });
+  }
+  void getUpdateUser(
+  {
+    required String name,
+    required String email,
+    required String phone,
+}) {
+    emit(GetUpdateUserStateLoading());
+    DioHelper.putData(
+      url: UPDATEPROFILE,
+      token: token,
+      data: {
+        'name':name,
+        'email':email,
+        'phone':phone,
+      },
+    ).then((value)
+    {
+      userModel=LoginModel.fromJson(value!.data);
+      print(userModel!.data!.name);
+      emit(GetUpdateUserStateSuccess());
+    }).catchError((error)
+    {
+      print(error);
+      emit(GetUpdateUserStateError(error));
     });
   }
 }

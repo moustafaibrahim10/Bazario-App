@@ -40,4 +40,28 @@ class GetFavoriteStateError extends BazzStates
   final String error;
   GetFavoriteStateError(this.error);
 }
+class GetUserDataStateLoading extends BazzStates
+{
+}
+class GetUserDataStateSuccess extends BazzStates
+{
+}
+class GetUserDataStateError extends BazzStates
+{
+  final String error;
+  GetUserDataStateError(this.error);
+}
+
+class GetUpdateUserStateLoading extends BazzStates
+{
+}
+class GetUpdateUserStateSuccess extends BazzStates
+{
+}
+class GetUpdateUserStateError extends BazzStates
+{
+  final String error;
+  GetUpdateUserStateError(this.error);
+}
+
 
