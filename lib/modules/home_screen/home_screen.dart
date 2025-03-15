@@ -197,7 +197,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                     if (model.discount != 0)
                       Text(
-                        '${model.old_price}',
+                        '${model.oldPrice}',
                         style: TextStyle(
                           fontSize: 12,
                           color: Colors.grey,

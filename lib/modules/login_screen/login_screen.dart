@@ -12,7 +12,7 @@ import 'package:shop_app/shared/components/constants.dart';
 import 'package:shop_app/shared/network/local/cache_helper.dart';
 
 class LoginScreen extends StatelessWidget {
-  var formkey = GlobalKey<FormState>();
+  var formKey = GlobalKey<FormState>();
   var emailcontorller = TextEditingController();
   var passwordcontorller = TextEditingController();
 
@@ -65,7 +65,7 @@ class LoginScreen extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Form(
-                    key: formkey,
+                    key: formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -136,7 +136,7 @@ class LoginScreen extends StatelessWidget {
                             condition: state is! LoginLoadingState,
                             builder: (context) => ElevatedButton(
                               onPressed: () {
-                                if (formkey.currentState!.validate()) {
+                                if (formKey.currentState!.validate()) {
                                   cubit.userLogin(
                                     email: emailcontorller.text,
                                     password: passwordcontorller.text,
