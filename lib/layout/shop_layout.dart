@@ -25,7 +25,15 @@ class ShopLayout extends StatelessWidget {
             actions: [
               IconButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchScreen()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SearchScreen()));
+                },
+                icon: Icon(Icons.shopping_bag),
+              ),
+              IconButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SearchScreen()));
                 },
                 icon: Icon(Icons.search),
               ),

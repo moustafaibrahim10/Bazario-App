@@ -12,40 +12,38 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<BazzCubit, BazzStates>(
-      listener: (context, state)
-      {
-        if (state is ChangeFavoriteStateSuccess)
-          {
-            if (state.model.status!)
-              {
-                  Fluttertoast.showToast(
-                      msg:state.model.message!,
-                   backgroundColor: Colors.green,);
-              }
-            else
-              {
-                if (!state.model.status!)
-                {
-                  Fluttertoast.showToast(
-                    msg:state.model.message!,
-                    backgroundColor: Colors.red,);
-                }
-              }
+      listener: (context, state) {
+        if (state is ChangeFavoriteStateSuccess) {
+          if (state.model.status!) {
+            Fluttertoast.showToast(
+              msg: state.model.message!,
+              backgroundColor: Colors.green,
+            );
+          } else {
+            if (!state.model.status!) {
+              Fluttertoast.showToast(
+                msg: state.model.message!,
+                backgroundColor: Colors.red,
+              );
+            }
           }
+        }
       },
       builder: (context, state) {
         var cubit = BazzCubit.get(context);
 
         return ConditionalBuilder(
           condition: cubit.model != null && cubit.categoriesModel != null,
-          builder: (context) => productBuilder(cubit.model! , cubit.categoriesModel!,context),
+          builder: (context) =>
+              productBuilder(cubit.model!, cubit.categoriesModel!, context),
           fallback: (context) => Center(child: CircularProgressIndicator()),
         );
       },
     );
   }
 
-  Widget productBuilder(HomeModel model , CategoriesModel categoriesModel,context) {
+  Widget productBuilder(
+      HomeModel model, CategoriesModel categoriesModel, context) {
     return SingleChildScrollView(
       physics: BouncingScrollPhysics(),
       child: Column(
@@ -93,9 +91,12 @@ class HomeScreen extends StatelessWidget {
                   child: ListView.separated(
                     physics: BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) => buildCatItem(categoriesModel.data!.data[index]),
-                      separatorBuilder: (context, index) => SizedBox(width: 5,),
-                      itemCount: categoriesModel.data!.data.length,
+                    itemBuilder: (context, index) =>
+                        buildCatItem(categoriesModel.data!.data[index]),
+                    separatorBuilder: (context, index) => SizedBox(
+                      width: 5,
+                    ),
+                    itemCount: categoriesModel.data!.data.length,
                   ),
                 ),
                 SizedBox(
@@ -126,7 +127,8 @@ class HomeScreen extends StatelessWidget {
               //height/width
               children: List.generate(
                 model.data!.products.length,
-                (index) => buildGradleProduct(model.data!.products[index],context),
+                (index) =>
+                    buildGradleProduct(model.data!.products[index], context),
               ),
             ),
           ),
@@ -135,97 +137,106 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget buildGradleProduct(ProductModel model,context) {
-    return Container(
-      color: Colors.white,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            alignment: AlignmentDirectional.bottomStart,
-            children: [
-              Image(
-                image: NetworkImage('${model.image}'),
-                width: double.infinity,
-                height: 200,
-              ),
-              if (model.discount != 0)
-                Container(
-                  color: Colors.red,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: Text(
-                      'DISCOUNT',
-                      style: TextStyle(
-                        fontSize: 10,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                )
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+  Widget buildGradleProduct(ProductModel model, context) {
+    return InkWell(
+      onTap: () {
+        openItem(context, model);
+      },
+      child: Container(
+        color: Colors.white,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              alignment: AlignmentDirectional.bottomStart,
               children: [
-                Text(
-                  '${model.name}',
-                  maxLines: 2,
-                  style: TextStyle(
-                    fontSize: 14,
-                    height: 1.3,
-                    fontWeight: FontWeight.bold,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                Image(
+                  image: NetworkImage('${model.image}'),
+                  width: double.infinity,
+                  height: 200,
                 ),
-                SizedBox(height: 5,),
-                Row(
-                  children: [
-                    Text(
-                      '${model.price.round()}',
-                      maxLines: 2,
-                      style: TextStyle(
-                          fontSize: 16,
-                          // height: 1.3,
-                          overflow: TextOverflow.ellipsis,
-                          color: Colors.blue),
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    if (model.discount != 0)
-                      Text(
-                        '${model.oldPrice}',
+                if (model.discount != 0)
+                  Container(
+                    color: Colors.red,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: Text(
+                        'DISCOUNT',
                         style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey,
-                          decoration: TextDecoration.lineThrough,
-                        ),
-                      ),
-                    Spacer(),
-                    CircleAvatar(
-                      backgroundColor: BazzCubit.get(context).favourite[model.id!]! ? Colors.blue : Colors.grey,
-                      radius: 16,
-                      child: IconButton(
-                        onPressed: ()
-                        {
-                          BazzCubit.get(context).changeFavorites(model.id!);
-                        },
-                        icon: Icon(
+                          fontSize: 10,
                           color: Colors.white,
-                          Icons.favorite_outline,
-                          size: 16,
                         ),
                       ),
                     ),
-                  ],
-                )
+                  )
               ],
             ),
-          )
-        ],
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${model.name}',
+                    maxLines: 2,
+                    style: TextStyle(
+                      fontSize: 14,
+                      height: 1.3,
+                      fontWeight: FontWeight.bold,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        '${model.price.round()}',
+                        maxLines: 2,
+                        style: TextStyle(
+                            fontSize: 16,
+                            // height: 1.3,
+                            overflow: TextOverflow.ellipsis,
+                            color: Colors.blue),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      if (model.discount != 0)
+                        Text(
+                          '${model.oldPrice}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey,
+                            decoration: TextDecoration.lineThrough,
+                          ),
+                        ),
+                      Spacer(),
+                      CircleAvatar(
+                        backgroundColor:
+                            BazzCubit.get(context).favourite[model.id!]!
+                                ? Colors.blue
+                                : Colors.grey,
+                        radius: 16,
+                        child: IconButton(
+                          onPressed: () {
+                            BazzCubit.get(context).changeFavorites(model.id!);
+                          },
+                          icon: Icon(
+                            color: Colors.white,
+                            Icons.favorite_outline,
+                            size: 16,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -253,6 +264,99 @@ class HomeScreen extends StatelessWidget {
           ),
         )
       ],
+    );
+  }
+
+  Future<void> openItem(BuildContext context, ProductModel model) {
+    return showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return DraggableScrollableSheet(
+          initialChildSize: 0.85,
+          maxChildSize: 0.95,
+          expand: false,
+          builder: (_, controller) {
+            return Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(50)),
+              ),
+              child: Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: ListView(
+                    controller: controller,
+                    children: [
+                      Image.network("${model.image}", height: 400,),
+                      SizedBox(height: 10),
+                      Text(
+                        "${model.name}",
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                        children: [
+                          Column(
+                            children: [
+                              Text(
+                                '${model.price.round()}',
+                                maxLines: 2,
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    // height: 1.3,
+                                    fontWeight: FontWeight.bold,
+                                    overflow: TextOverflow.ellipsis,
+                                    color: Colors.blue),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              if (model.discount != 0)
+                                Text(
+                                  '${model.oldPrice}',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey,
+                                    decoration: TextDecoration.lineThrough,
+                                  ),
+                                ),
+                            ],
+                          ),
+                          Spacer(),
+                          if (model.discount != 0)
+                            Text(
+                              '${model.discount}% DISCOUNT',
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontWeight: FontWeight.bold
+                              ),
+                            )
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          )
+                        ),
+                        child: Text(
+                          'Add to Cart',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }

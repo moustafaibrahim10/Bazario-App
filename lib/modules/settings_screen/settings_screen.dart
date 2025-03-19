@@ -28,7 +28,7 @@ class SettingsScreen extends StatelessWidget {
           child: Stack(
             children: [
               Container(
-                height: 280,
+                height: 225,
                 decoration: BoxDecoration(
                   color: Colors.blue,
                   borderRadius: BorderRadius.vertical(
@@ -41,7 +41,7 @@ class SettingsScreen extends StatelessWidget {
                 child: Center(
                   child: Column(
                     children: [
-                      SizedBox(height: 50,),
+                      SizedBox(height: 30,),
                       if (state is GetUpdateUserStateLoading)
                         LinearProgressIndicator(),
                       Icon(
@@ -53,7 +53,7 @@ class SettingsScreen extends StatelessWidget {
                       Text(
                         nameController.text,
                         style: TextStyle(
-                          fontSize: 22,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.white
                         ),
@@ -61,16 +61,17 @@ class SettingsScreen extends StatelessWidget {
                       Text(
                         emailController.text,
                         style: TextStyle(
-                          fontSize: 22,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.white
                         ),
                       ),
                       SizedBox(
-                        height: 100,
+                        height: 50,
                       ),
                       Expanded(child: ListView(
                         children: [
+                          SizedBox(height: 10,),
                           defaultTextFormField(
                             contorller: nameController,
                             validator: (value) {
