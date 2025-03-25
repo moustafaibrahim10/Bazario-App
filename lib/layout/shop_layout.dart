@@ -8,6 +8,7 @@ import 'package:shop_app/shared/network/local/cache_helper.dart';
 
 import '../cubit/cubit.dart';
 import '../cubit/states.dart';
+import '../modules/cart_screen/cart_screen.dart';
 
 class ShopLayout extends StatelessWidget {
   @override
@@ -25,9 +26,18 @@ class ShopLayout extends StatelessWidget {
             actions: [
               IconButton(
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SearchScreen()));
+
                 },
+                splashColor: Colors.blue,
+                highlightColor: Colors.blue.withOpacity(0.3),
+                icon: Icon(Icons.language),
+              ), IconButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => CartScreen()));
+                },
+                splashColor: Colors.blue,
+                highlightColor: Colors.blue.withOpacity(0.3),
                 icon: Icon(Icons.shopping_bag),
               ),
               IconButton(
@@ -35,6 +45,8 @@ class ShopLayout extends StatelessWidget {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => SearchScreen()));
                 },
+                splashColor: Colors.blue,
+                highlightColor: Colors.blue.withOpacity(0.3),
                 icon: Icon(Icons.search),
               ),
             ],

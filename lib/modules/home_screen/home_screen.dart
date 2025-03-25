@@ -283,74 +283,83 @@ class HomeScreen extends StatelessWidget {
                 color: Colors.white,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(50)),
               ),
-              child: Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: ListView(
-                    controller: controller,
-                    children: [
-                      Image.network("${model.image}", height: 400,),
-                      SizedBox(height: 10),
-                      Text(
-                        "${model.name}",
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 10),
-                      Row(
-                        children: [
-                          Column(
-                            children: [
-                              Text(
-                                '${model.price.round()}',
-                                maxLines: 2,
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    // height: 1.3,
-                                    fontWeight: FontWeight.bold,
-                                    overflow: TextOverflow.ellipsis,
-                                    color: Colors.blue),
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              if (model.discount != 0)
-                                Text(
-                                  '${model.oldPrice}',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.grey,
-                                    decoration: TextDecoration.lineThrough,
-                                  ),
-                                ),
-                            ],
-                          ),
-                          Spacer(),
-                          if (model.discount != 0)
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: ListView(
+                  controller: controller,
+                  children: [
+                    Image.network(
+                      "${model.image}",
+                      height: 400,
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      "${model.name}",
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Column(
+                          children: [
                             Text(
-                              '${model.discount}% DISCOUNT',
+                              '${model.price.round()}',
+                              maxLines: 2,
                               style: TextStyle(
-                                color: Colors.red,
-                                fontWeight: FontWeight.bold
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  overflow: TextOverflow.ellipsis,
+                                  color: Colors.blue),
+                            ),
+                            SizedBox(width: 5),
+                            if (model.discount != 0)
+                              Text(
+                                '${model.oldPrice}',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                  decoration: TextDecoration.lineThrough,
+                                ),
                               ),
-                            )
-                        ],
-                      ),
-                      SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          )
+                          ],
                         ),
-                        child: Text(
-                          'Add to Cart',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
-                        ),
-                      ),
-                    ],
-                  ),
+                        Spacer(),
+                        if (model.discount != 0)
+                          Text(
+                            '${model.discount}% DISCOUNT',
+                            style: TextStyle(
+                                color: Colors.red, fontWeight: FontWeight.bold),
+                          ),
+                      ],
+                    ),
+                    readMoreText(text: model.description.toString(),context: context),
+                    SizedBox(height: 20),
+                    BlocBuilder<BazzCubit, BazzStates>(
+                      builder: (context, state) {
+                        bool isInCart =
+                            BazzCubit.get(context).cart[model.id!] ?? false;
+                        return ElevatedButton(
+                          onPressed:() {
+                            BazzCubit.get(context).changeCartItems(model.id!); // ينضاف لو مش مضاف
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: isInCart ? Colors.grey : Colors.blue,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          child: Text(
+                            isInCart ? 'Added to Cart' : 'Add to Cart',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ),
             );
@@ -359,4 +368,35 @@ class HomeScreen extends StatelessWidget {
       },
     );
   }
+  Widget readMoreText({required String text,context})
+  {
+    return BlocBuilder<BazzCubit, BazzStates>(
+        builder: (context, state)
+    {
+      return Column(
+        children: [
+          BazzCubit.get(context).isExpanded ?
+          Text(
+            text,
+            style: const TextStyle(fontSize: 14, color: Colors.black54),
+          ):Text(
+            text,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontSize: 14, color: Colors.black54),
+          ),
+          GestureDetector(
+            onTap: (){
+              BazzCubit.get(context).readMoreText();
+            },
+            child: Text(
+              BazzCubit.get(context).isExpanded ? "Read less" : "Read more",
+              style: const TextStyle(
+                  fontSize: 14, fontWeight: FontWeight.bold, color: Colors.blue),
+            ),
+          ),      ],
+      );
+    });
+  }
+
 }

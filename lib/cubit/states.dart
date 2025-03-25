@@ -64,4 +64,20 @@ class GetUpdateUserStateError extends BazzStates
   GetUpdateUserStateError(this.error);
 }
 
+class ChangeCartStateLoading extends BazzStates{}
+class ChangeCartStateSuccess extends BazzStates
+{
+  final ChangeFavoriteModel model;
+  ChangeCartStateSuccess(this.model);
+}
+class ChangeCartStateError extends BazzStates
+{
+  final String error;
+  ChangeCartStateError(this.error);
+}
+
+class ReadMoreTextState extends BazzStates{}
+
+
+
 

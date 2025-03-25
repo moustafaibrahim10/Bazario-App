@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "973816138542",
+    "project_id": "udemy-course-4b2fc",
+    "storage_bucket": "udemy-course-4b2fc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:973816138542:android:3bb35562e17d87570488bf",
+        "android_client_info": {
+          "package_name": "com.example.bazario_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuuUA8NZNc-n4ui9-Eiov2LNrhr5_15xA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

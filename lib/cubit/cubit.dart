@@ -35,6 +35,7 @@ class BazzCubit extends Cubit<BazzStates> {
 
   HomeModel? model;
   Map<int, bool> favourite = {};
+  Map<int, bool> cart = {};
 
   void getHomeData() {
     emit(BazzHomeLoadingState());
@@ -43,6 +44,7 @@ class BazzCubit extends Cubit<BazzStates> {
 
       model!.data!.products.forEach((element) {
         favourite.addAll({element.id!: element.inFavorites!});
+        cart.addAll({element.id!: element.inCart!});
       });
       emit(BazzHomeSuccessState());
       //print(model);
@@ -85,6 +87,28 @@ class BazzCubit extends Cubit<BazzStates> {
     }).catchError((error) {
       favourite[productId] = !favourite[productId]!;
       emit(ChangeFavoriteStateError(error.toString()));
+    });
+  }
+
+  void changeCartItems(int productId) {
+    cart[productId] = !cart[productId]!;
+    emit(ChangeCartStateLoading());
+    DioHelper.postData(
+        url: CART,
+        token: token,
+        data: {'product_id': productId}).then((value) {
+      changeFavouriteModel = ChangeFavoriteModel.fromJson(value!.data);
+      // print(favourite[productId]);
+      if (!changeFavouriteModel!.status!)
+      {
+        cart[productId] = !cart[productId]!;
+      } else {
+        getFavoritesData();
+      }
+      emit(ChangeCartStateSuccess(changeFavouriteModel!));
+    }).catchError((error) {
+      cart[productId] = !cart[productId]!;
+      emit(ChangeCartStateError(error.toString()));
     });
   }
 
@@ -148,5 +172,11 @@ class BazzCubit extends Cubit<BazzStates> {
       print(error);
       emit(GetUpdateUserStateError(error));
     });
+  }
+  bool isExpanded=true;
+  void readMoreText()
+  {
+    isExpanded=!isExpanded;
+    emit(ReadMoreTextState());
   }
 }

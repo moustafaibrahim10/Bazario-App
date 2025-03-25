@@ -16,7 +16,9 @@ class SearchScreen extends StatelessWidget {
         listener: (context, state) {},
         builder: (context, state) {
           return Scaffold(
-              appBar: AppBar(),
+              appBar: AppBar(
+                title: Text('Search for what you want'),
+              ),
               body: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(

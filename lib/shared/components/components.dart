@@ -61,7 +61,7 @@ Widget buildListProduct( model,context) {
   return Padding(
     padding: const EdgeInsets.all(20.0),
     child: Container(
-      height: 120,
+      height: 125,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -104,6 +104,18 @@ Widget buildListProduct( model,context) {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
+                SizedBox(height: 10,),
+                Text(model.description!
+                  ,maxLines: 2,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.black54,
+                    height: 1.3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                SizedBox(height: 10,),
+
                 Spacer(),
                 Row(
                   children: [

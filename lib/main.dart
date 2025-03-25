@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/modules/login_screen/login_screen.dart';
@@ -11,9 +12,10 @@ import 'modules/onboarding_screen/onboarding_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-   Bloc.observer = MyBlocObserver();
-   await DioHelper.init();
-   await CacheHelper.init();
+  await Firebase.initializeApp();
+  Bloc.observer = MyBlocObserver();
+  await DioHelper.init();
+  await CacheHelper.init();
    bool onBoarding =  CacheHelper.getData(key: 'onBoarding') ?? false;
    token =  CacheHelper.getData(key: 'token');
    print(token);
