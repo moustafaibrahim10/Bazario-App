@@ -33,23 +33,28 @@ class CartScreen extends StatelessWidget {
         //   return Center(child: Text('No favorites found'));
         // }
 
-        return ConditionalBuilder(
-          condition:state is! ChangeCartStateLoading,
-          builder: (context) {
-            if (cubit.getFavorites?.data?.data?.length == 0)
-            {
-              return Center(child: Text('No favorites found'));
-            }
-            else
-              return ListView.separated(
-                physics: BouncingScrollPhysics(),
-                itemBuilder: (context, index) => buildListProduct(cubit.getFavorites?.data?.data?[index].product,context),
-                separatorBuilder: (context, index) => Divider(),
-                itemCount: BazzCubit.get(context).getFavorites!.data!.data!.length ?? 0,
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('Cart Screen',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400),),
+          ),
+          body: ConditionalBuilder(
+            condition:state is! ChangeCartStateLoading,
+            builder: (context) {
+              if (cubit.cartData?.data?.cartItems?.length == 0)
+              {
+                return Center(child: Text('No Cart Data found'));
+              }
+              else
+                return ListView.separated(
+                  physics: BouncingScrollPhysics(),
+                  itemBuilder: (context, index) => buildListProduct(cubit.cartData?.data?.cartItems?[index].product,context),
+                  separatorBuilder: (context, index) => Divider(),
+                  itemCount: cubit.cartData?.data?.cartItems?.length ?? 0,
 
-              );
-          },
-          fallback: (context) => Center(child: CircularProgressIndicator()),
+                );
+            },
+            fallback: (context) => Center(child: CircularProgressIndicator()),
+          ),
         );
       },
     );

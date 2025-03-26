@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => BazzCubit()..getHomeData()..getCategoriesData()..getFavoritesData()..getUserData()),
+        BlocProvider(create: (context) => BazzCubit()..getHomeData()..getCategoriesData()..getFavoritesData()..getUserData()..getCartData()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

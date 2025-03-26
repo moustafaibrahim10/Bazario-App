@@ -29,14 +29,9 @@ class ChangeFavoriteStateError extends BazzStates
   final String error;
   ChangeFavoriteStateError(this.error);
 }
-class GetFavoriteStateLoading extends BazzStates
-{
-}
-class GetFavoriteStateSuccess extends BazzStates
-{
-}
-class GetFavoriteStateError extends BazzStates
-{
+class GetFavoriteStateLoading extends BazzStates {}
+class GetFavoriteStateSuccess extends BazzStates {}
+class GetFavoriteStateError extends BazzStates {
   final String error;
   GetFavoriteStateError(this.error);
 }
@@ -79,5 +74,10 @@ class ChangeCartStateError extends BazzStates
 class ReadMoreTextState extends BazzStates{}
 
 
-
+class GetCartDataStateLoading extends BazzStates {}
+class GetCartDataStateSuccess extends BazzStates {}
+class GetCartDataStateError extends BazzStates {
+  final String error;
+  GetCartDataStateError(this.error);
+}
 

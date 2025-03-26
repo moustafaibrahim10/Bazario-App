@@ -5,6 +5,7 @@ import 'package:shop_app/models/favourite_model/change_favourite_model.dart';
 import 'package:shop_app/models/home_model/home_model.dart';
 import 'package:shop_app/shared/network/remote/dio_helper.dart';
 
+import '../models/cart_model/cart_model.dart';
 import '../models/categories_model/categories_model.dart';
 import '../models/favourite_model/get_favorites_models.dart';
 import '../models/login_model/login_model.dart';
@@ -179,4 +180,22 @@ class BazzCubit extends Cubit<BazzStates> {
     isExpanded=!isExpanded;
     emit(ReadMoreTextState());
   }
-}
+
+  GetCartData? cartData;
+
+  void getCartData() {
+    emit(GetCartDataStateLoading());
+    DioHelper.getData(
+      url: CART,
+      token: token,
+    ).then((value) {
+      print('Raw cart API response: ${value!.data}');
+      cartData = GetCartData.fromJson(value!.data);
+      print('Cart data fetched: ${cartData?.data?.cartItems?.length} items');
+      emit(GetCartDataStateSuccess());
+    }).catchError((error) {
+      print('Error fetching cart data: $error');
+      print('Error type: ${error.runtimeType}');
+      emit(GetCartDataStateError(error.toString()));
+    });
+  }}
