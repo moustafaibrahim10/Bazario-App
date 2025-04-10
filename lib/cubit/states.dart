@@ -80,4 +80,10 @@ class GetCartDataStateError extends BazzStates {
   final String error;
   GetCartDataStateError(this.error);
 }
+class DeleteCartDataStateLoading extends BazzStates {}
+class DeleteCartDataStateSuccess extends BazzStates {}
+class DeleteCartDataStateError extends BazzStates {
+  final String error;
+  DeleteCartDataStateError(this.error);
+}
 

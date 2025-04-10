@@ -91,6 +91,7 @@ class BazzCubit extends Cubit<BazzStates> {
     });
   }
 
+  ChangeFavoriteModel? changeCartModel;
   void changeCartItems(int productId) {
     cart[productId] = !cart[productId]!;
     emit(ChangeCartStateLoading());
@@ -98,15 +99,15 @@ class BazzCubit extends Cubit<BazzStates> {
         url: CART,
         token: token,
         data: {'product_id': productId}).then((value) {
-      changeFavouriteModel = ChangeFavoriteModel.fromJson(value!.data);
+      changeCartModel = ChangeFavoriteModel.fromJson(value!.data);
       // print(favourite[productId]);
-      if (!changeFavouriteModel!.status!)
+      if (!changeCartModel!.status!)
       {
         cart[productId] = !cart[productId]!;
       } else {
         getFavoritesData();
       }
-      emit(ChangeCartStateSuccess(changeFavouriteModel!));
+      emit(ChangeCartStateSuccess(changeCartModel!));
     }).catchError((error) {
       cart[productId] = !cart[productId]!;
       emit(ChangeCartStateError(error.toString()));
@@ -198,4 +199,21 @@ class BazzCubit extends Cubit<BazzStates> {
       print('Error type: ${error.runtimeType}');
       emit(GetCartDataStateError(error.toString()));
     });
-  }}
+  }
+  void deleteCartData({required int id})
+  {
+    emit(DeleteCartDataStateLoading());
+    DioHelper.delData(
+        url:DELETECART,
+    token: token,
+      data: {'id':id}
+    ).then((value)
+    {
+      print(value);
+      emit(DeleteCartDataStateSuccess());
+    }).catchError((error)
+    {
+      print(error);
+    });
+  }
+}

@@ -7,3 +7,4 @@ const String PROFILE='profile';
 const String REGISTER='register';
 const String UPDATEPROFILE='update-profile';
 const String SEARCH='products/search';
+const String DELETECART='carts/2';

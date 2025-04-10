@@ -340,7 +340,7 @@ class HomeScreen extends StatelessWidget {
                             BazzCubit.get(context).cart[model.id!] ?? false;
                         return ElevatedButton(
                           onPressed:() {
-                            BazzCubit.get(context).changeCartItems(model.id!); // ينضاف لو مش مضاف
+                            BazzCubit.get(context).changeCartItems(model.id!);
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: isInCart ? Colors.grey : Colors.blue,
