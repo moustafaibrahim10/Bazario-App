@@ -24,7 +24,8 @@ class CartScreen extends StatelessWidget {
               padding: const EdgeInsets.all(20.0),
               child: Container(
                 width: double.infinity,
-                height: 150,
+                color: Colors.white,
+                height: 127,
                 child: Row(
                   children: [
                     Image(image: NetworkImage('${cubit.cartData?.data?.cartItems?[index].product?.image}'), width: 120, height: 120),
@@ -70,7 +71,7 @@ class CartScreen extends StatelessWidget {
                               Text(
                                 cubit.cartData?.data?.cartItems?[index].product?.price.toString() ?? 'default price',
                                 style: TextStyle(
-                                  color: Colors.red,
+                                  color: Colors.blue,
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                 ),
