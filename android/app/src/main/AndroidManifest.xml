@@ -2,7 +2,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:label="bazario_app"
+        android:label="Bazzario"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

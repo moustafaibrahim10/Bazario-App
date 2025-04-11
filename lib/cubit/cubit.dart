@@ -204,16 +204,18 @@ class BazzCubit extends Cubit<BazzStates> {
   {
     emit(DeleteCartDataStateLoading());
     DioHelper.delData(
-        url:DELETECART,
+        url:"$DELETECART$id",
     token: token,
-      data: {'id':id}
     ).then((value)
     {
       print(value);
+      getCartData();
       emit(DeleteCartDataStateSuccess());
     }).catchError((error)
     {
       print(error);
+      emit(DeleteCartDataStateError(error));
+
     });
   }
 }

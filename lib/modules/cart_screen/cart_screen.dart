@@ -50,7 +50,7 @@ class CartScreen extends StatelessWidget {
                               ),
                               IconButton(onPressed: ()
                               {
-                                cubit.deleteCartData(id: cubit.cartData?.data?.cartItems?[index].product?.id);
+                                cubit.deleteCartData(id: cubit.cartData?.data?.cartItems?[index].id);
                               },
                                   icon: Icon(Icons.delete))
                             ],
